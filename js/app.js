@@ -106,17 +106,17 @@ $('#title').on("change",function(){ //when there is change in the select element
 //if the design select changes, display the appropriate color select to the user
 $("#design").on("change",function(){ //when there is change on this select element
     if($(this).val()==="js puns"){ //if the value of the option selected is 'js puns'
-       $('#colors-js-puns .mainSelect').parent().show();
+       $('#colors-js-puns .mainSelect').parent().show();//show the color label
        $('#colors-js-puns #color').hide(); //hide the #elements with the id of #color
        $PunsSelect.show(); //show the $PunsSelect select element
     }
     if($(this).val()==="heart js"){ //if the value of the option selected is 'heart js'
-       $('#colors-js-puns .mainSelect').parent().show();
+       $('#colors-js-puns .mainSelect').parent().show();//show the color label
        $('#colors-js-puns #color').hide();//hide the #elements with the id of #color
        $LoveSelect.show();//show the $LoveSelect select element
     }
     if ($(this).val()=="Select Theme"){ //if the value of the option selected is 'Select Theme'
-       $('#colors-js-puns .mainSelect').parent().hide();
+       $('#colors-js-puns .mainSelect').parent().hide();//hide the color label
        $('#colors-js-puns #color').hide(); //hide the elements with the id of #color
        $('#colors-js-puns .mainSelect').hide(); //show the select element with the class of 'mainSelect'
     }
@@ -285,10 +285,9 @@ $('#payment').on("change",function(){
 //EXECUTION
 //focus on input (id=name) when page loads
 $('#name').focus();
-
+//hide the color label and the color select element in the beginning of the program
 $('#colors-js-puns .mainSelect').parent().hide();
 $('#colors-js-puns .mainSelect').hide();
-
 //run the showHideTotal function when the program starts
 showHideTotal();
 //hide the textfield in the beginning of the program
