@@ -28,12 +28,65 @@ $LoveSelect.hide();
 
 //FUNCTIONS
 
+function isEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}
 function showHideTotal(){
     $('fieldset.activities p').remove();
     var $TotalPara=$('<p>$</p>');
     $TotalPara.append(Total);
     $('fieldset.activities').append($TotalPara);
     console.log(Total);
+}
+function showHidePayment(string){
+    switch(string){
+        case "select":
+            $('#credit-card').hide();
+            $('#pay-pal').hide();
+            $('#bit-coin').hide();
+            break;
+        case "credit":
+            $('#credit-card').show();
+            $('#pay-pal').hide();
+            $('#bit-coin').hide();
+            break;
+        case "bit":
+            $('#credit-card').hide();
+            $('#pay-pal').hide();
+            $('#bit-coin').show();
+            break;
+        case "pay":
+            $('#credit-card').hide();
+            $('#pay-pal').show();
+            $('#bit-coin').hide();
+            break;
+    }
+}
+//function ran when the form submit button is pressed
+function validateMyForm(){
+    if($('#name').val()===''){ //if the name text field is empty
+        event.preventDefault();//prevent the browser from submitting the form
+        $('html, body').animate({ scrollTop: 0 }, 'fast'); //animate to the top of the page
+        console.log("name is empty");
+    }
+    if(!isEmail($('#mail').val())){ //if the email address entered is not true
+        event.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        console.log("email address is false");
+    }
+    if($('.activities input:checked').length <=0){ //if there are no checked activities
+        event.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        console.log('no acitivities selected');
+    }
+    if($('#payment').val()==="select_method"){
+        event.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        console.log('no payment method selected');
+    }
+    /////CONTINUE HERE WITH CREDIT CARD VALIDATION!!!!!!
+    
 }
 
 
@@ -207,6 +260,25 @@ $('.activities input[name="npm"]').on("change",function(){
     }
     
 });
+///PAYMENT INFO
+$('#payment').on("change",function(){
+   if($(this).val()==="select_method") {
+       showHidePayment("select");
+   }
+   if($(this).val()==="credit card") {
+       showHidePayment("credit");
+   }
+   if($(this).val()==="paypal") {
+       showHidePayment("pay");
+   }
+   if($(this).val()==="bitcoin") {
+       showHidePayment("bit");
+   }
+   
+});
+
+
+
 //EXECUTION
 //focus on input (id=name) when page loads
 $('#name').focus();
@@ -214,3 +286,6 @@ $('#name').focus();
 showHideTotal();
 //hide the textfield in the beginning of the program
 $("#other-title").hide();
+//Give the attribute to the credit card option so that it is displayed as default
+$('#payment option[value="credit card"]').attr("selected","selected");
+showHidePayment("credit");
