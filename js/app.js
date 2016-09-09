@@ -31,6 +31,9 @@ var $checkboxError=$('<h3 class="error">Please select an activity!</h3>');
 var $paymentError=$('<h3 class="error">Please select a valid Payment!</h3>');
 var $creditCardError=$('<h3 class="error">Please enter a valid credit card number!</h3>');
 
+
+var $TotalPara=$('<p>$0</p>');
+$('fieldset.activities').append($TotalPara);
 //FUNCTIONS
 
 //hide errors
@@ -45,13 +48,6 @@ function HideErrors(){
 function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
-}
-//function that hides the previous total price and updates it in the dom with the updated Total value
-function showHideTotal(){
-    $('fieldset.activities p').remove();
-    var $TotalPara=$('<p>$</p>');
-    $TotalPara.append(Total);
-    $('fieldset.activities').append($TotalPara);
 }
 //function that takes in a string and shows/hides appropriate information depending on the argument given to it
 function showHidePayment(string){
@@ -173,13 +169,13 @@ $('.activities input[name="all"]').on("change",function(){ //if there is a chang
     
     if($('input[name="all"]').is(':checked')){ //if the checkbox is checked
             Total+=200;//increment the total price by 200
-            showHideTotal();//run the showHideTotal function
+            $TotalPara.text("$"+Total);//Update the Total Price
             checkedAll=true;//set this boolean to true
     } 
     if($('input[name="all"]:checkbox'). prop("checked") !== true){//if the checkbox is unchecked
         if(checkedAll){ //check if the checkbox went from a checked to an unchecked state
             Total-=200; //decrement by 200
-            showHideTotal();//run the showHideTotal function
+            $TotalPara.text("$"+Total);//Update the Total Price
         }
         checkedAll=false;//set this boolean to false to know that the checkbox has no longer changed state anymore
     }
@@ -192,7 +188,7 @@ $('.activities input[name="js-frameworks"]').on("change",function(){//if there i
         $('input[name="express"]').prop("disabled",true); //set the property on input[name="express"] to disabled
         $('input[name="express"]').parent().addClass("disabled"); //give the parent of input[name="express"] a class of disabled
         Total+=100;//increment by 100
-        showHideTotal();//run the showHideTotal function
+        $TotalPara.text("$"+Total);//Update the Total Price
         checkedFram=true;//set this boolean to True
     }
     if($('input[name="js-frameworks"]:checkbox'). prop("checked") !== true){ //if the checkbox is unchecked
@@ -201,7 +197,7 @@ $('.activities input[name="js-frameworks"]').on("change",function(){//if there i
             //remove the class disabled from the parent of input[name="express"]
             $('input[name="express"]').parent().removeClass("disabled"); 
             Total-=100;//decrement by 100
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
         }
         checkedFram=false;//set this boolean to false to know that the checkbox has no longer changed state anymore
     }
@@ -215,7 +211,7 @@ $('.activities input[name="js-libs"]').on("change",function(){
         $('input[name="node"]').prop("disabled",true);
         $('input[name="node"]').parent().addClass("disabled");
         Total+=100;
-        showHideTotal();
+        $TotalPara.text("$"+Total);//Update the Total Price
         checkedLib=true;
     }
     if($('input[name="js-libs"]:checkbox'). prop("checked") !== true){
@@ -223,7 +219,7 @@ $('.activities input[name="js-libs"]').on("change",function(){
             $('input[name="node"]').prop("disabled",false);
             $('input[name="node"]').parent().removeClass("disabled");
             Total-=100;
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
         }
         checkedLib=false;
     }
@@ -235,7 +231,7 @@ $('.activities input[name="express"]').on("change",function(){
         $('input[name="js-frameworks"]').prop("disabled",true);
         $('input[name="js-frameworks"]').parent().addClass("disabled");
         Total+=100;
-        showHideTotal();
+        $TotalPara.text("$"+Total);//Update the Total Price
         checkedExp=true;
     } 
     if($('input[name="express"]:checkbox'). prop("checked") !== true){
@@ -243,7 +239,7 @@ $('.activities input[name="express"]').on("change",function(){
             $('input[name="js-frameworks"]').prop("disabled",false);
             $('input[name="js-frameworks"]').parent().removeClass("disabled");
             Total-=100;
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
         }
         checkedExp=false;
     }
@@ -256,7 +252,7 @@ $('.activities input[name="node"]').on("change",function(){
         $('input[name="js-libs"]').prop("disabled",true);
         $('input[name="js-libs"]').parent().addClass("disabled");
         Total+=100;
-        showHideTotal();
+        $TotalPara.text("$"+Total);//Update the Total Price
         checkedNode=true;
     } 
     if($('input[name="node"]'). prop("checked") !== true){
@@ -264,7 +260,7 @@ $('.activities input[name="node"]').on("change",function(){
             $('input[name="js-libs"]').prop("disabled",false);
             $('input[name="js-libs"]').parent().removeClass("disabled");
             Total-=100;
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
         }
         checkedNode=false;
     }
@@ -275,13 +271,13 @@ $('.activities input[name="node"]').on("change",function(){
 $('.activities input[name="build-tools"]').on("change",function(){
     if($('input[name="build-tools"]').is(':checked')){
             Total+=100;
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
             checkedBuilTools=true;
     }
     if($('input[name="build-tools"]:checkbox'). prop("checked") !== true){
         if(checkedBuilTools){
             Total-=100;
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
         }
         checkedBuilTools=false;
     }
@@ -293,14 +289,14 @@ $('.activities input[name="build-tools"]').on("change",function(){
 $('.activities input[name="npm"]').on("change",function(){
     if($('input[name="npm"]').is(':checked')){
         Total+=100;
-        showHideTotal();
+        $TotalPara.text("$"+Total);//Update the Total Price
         checkedNpm=true;
         console.log("npm check");
     }
     if($('input[name="npm"]:checkbox'). prop("checked") !== true){
         if(checkedNpm){
             Total-=100;
-            showHideTotal();
+            $TotalPara.text("$"+Total);//Update the Total Price
             console.log("npm uncheck");
         }
         checkedNpm=false;
@@ -332,8 +328,6 @@ $('#name').focus();
 //hide the color label and the color select element in the beginning of the program
 $('#colors-js-puns .mainSelect').parent().hide();
 $('#colors-js-puns .mainSelect').hide();
-//run the showHideTotal function when the program starts
-showHideTotal();
 //hide the textfield in the beginning of the program
 $("#other-title").hide();
 //Give the attribute to the credit card option so that it is displayed as default
