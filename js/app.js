@@ -6,27 +6,43 @@ var checkedNode=false;
 var checkedBuilTools=false;
 var checkedNpm=false;
 var Total=0;
-var TotalString=Total.toString();
+var valid;
 var $TotalPara=$('<p>$</p>');
 //Creat the JAVA PUN select element, clone the options,  and append it to the page
-var $PunsSelect=$('<select id="color"></select>');
+var $PunsSelect=$('<select id="puns"></select>');
 var $PunsOpt1=$('#color').children().eq(0).clone().appendTo($PunsSelect);
 var $PunsOpt2=$('#color').children().eq(1).clone().appendTo($PunsSelect);
 var $PunsOpt3=$('#color').children().eq(2).clone().appendTo($PunsSelect);
+$PunsSelect.addClass('selectpicker');
 $('#colors-js-puns').append($PunsSelect);
 $PunsSelect.hide();
 
 //Create the I HEART JAVA select element, clone the options, and append it to the page
-var $LoveSelect=$('<select id="color"></select>');
+var $LoveSelect=$('<select id="love"></select>');
 var $LoveOpt1=$('#color').children().eq(3).clone().appendTo($LoveSelect);
 var $LoveOpt2=$('#color').children().eq(4).clone().appendTo($LoveSelect);
 var $LoveOpt3=$('#color').children().eq(5).clone().appendTo($LoveSelect);
+$LoveSelect.addClass('selectpicker');
 $('#colors-js-puns').append($LoveSelect);
 $LoveSelect.hide();
 
-
+//CREATING and APPENDING ERRORS
+var $nameError=$('<h3 class="error">Please enter a valid Name!</h3>');
+var $emailError=$('<h3 class="error">Please enter a valid Email!</h3>');
+var $checkboxError=$('<h3 class="error">Please select an activity!</h3>');
+var $paymentError=$('<h3 class="error">Please select a valid Payment!</h3>');
+var $creditCardError=$('<h3 class="error">Please enter a valid credit card number!</h3>');
 
 //FUNCTIONS
+
+//hide errors
+function HideErrors(){
+    $nameError.appendTo($('#name').prev()).hide();
+    $emailError.appendTo($('#mail').prev()).hide();
+    $checkboxError.prependTo($('.activities')).hide();
+    $paymentError.appendTo($('#payment').prev()).hide();
+    $creditCardError.prependTo($('#credit-card')).hide();
+}
 
 function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -65,33 +81,65 @@ function showHidePayment(string){
 }
 //function ran when the form submit button is pressed
 function validateMyForm(){
-    if($('#name').val()===''){ //if the name text field is empty
+    //hide all errors
+    HideErrors();
+    if($('input#name').val()===''){ //if the name text field is empty
         event.preventDefault();//prevent the browser from submitting the form
         $('html, body').animate({ scrollTop: 0 }, 'fast'); //animate to the top of the page
+        $nameError.show();
         console.log("name is empty");
     }
     if(!isEmail($('#mail').val())){ //if the email address entered is not true
         event.preventDefault();
         $('html, body').animate({ scrollTop: 0 }, 'fast');
+        $emailError.show();
         console.log("email address is false");
     }
     if($('.activities input:checked').length <=0){ //if there are no checked activities
         event.preventDefault();
         $('html, body').animate({ scrollTop: 0 }, 'fast');
+        $checkboxError.show();
         console.log('no acitivities selected');
     }
     if($('#payment').val()==="select_method"){
         event.preventDefault();
         $('html, body').animate({ scrollTop: 0 }, 'fast');
+        $paymentError.show();  
         console.log('no payment method selected');
     }
-    /////CONTINUE HERE WITH CREDIT CARD VALIDATION!!!!!!
+    var result= $('#cc-num').validateCreditCard();
+    if(!result.length_valid || !result.luhn_valid){
+        event.preventDefault();
+        $creditCardError.show();
+        console.log('wrong credit card');
+    }
+    if($('#cvv').val().length!==3){
+        event.preventDefault();
+        $creditCardError.show();
+        
+    }
+    if($('#zip').val().length<=0){
+        event.preventDefault();
+        $creditCardError.show();
+        
+    }
     
 }
 
 
-
 //EVENT LISTENERS
+
+//Allow only numbers to be entered
+$('#zip').on('keypress', function(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+});
+//Allow only numbers to be entered
+$('#cvv').on('keypress', function(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+});
+
 
 //if job role of 'other' is selected, show a text field
 $('#title').on("change",function(){ //when there is change in the select element
@@ -105,20 +153,19 @@ $('#title').on("change",function(){ //when there is change in the select element
 
 //if the design select changes, display the appropriate color select to the user
 $("#design").on("change",function(){ //when there is change on this select element
+    
     if($(this).val()==="js puns"){ //if the value of the option selected is 'js puns'
-       $('#colors-js-puns .mainSelect').parent().show();//show the color label
-       $('#colors-js-puns #color').hide(); //hide the #elements with the id of #color
-       $PunsSelect.show(); //show the $PunsSelect select element
+        $("select#puns").parent().show();
+        $('#colors-js-puns').show();
+        $("select#love").parent().hide();//show the $PunsSelect select element
     }
     if($(this).val()==="heart js"){ //if the value of the option selected is 'heart js'
-       $('#colors-js-puns .mainSelect').parent().show();//show the color label
-       $('#colors-js-puns #color').hide();//hide the #elements with the id of #color
-       $LoveSelect.show();//show the $LoveSelect select element
+        $("select#love").parent().show();
+        $('#colors-js-puns').show();
+        $("select#puns").parent().hide();//show the $LoveSelect select element
     }
     if ($(this).val()=="Select Theme"){ //if the value of the option selected is 'Select Theme'
-       $('#colors-js-puns .mainSelect').parent().hide();//hide the color label
-       $('#colors-js-puns #color').hide(); //hide the elements with the id of #color
-       $('#colors-js-puns .mainSelect').hide(); //show the select element with the class of 'mainSelect'
+        $('#colors-js-puns').hide();
     }
 });
 
@@ -295,3 +342,7 @@ $("#other-title").hide();
 //Give the attribute to the credit card option so that it is displayed as default
 $('#payment option[value="credit card"]').attr("selected","selected");
 showHidePayment("credit");
+ 
+//HIDE ALL ERRORS WHEN THE PROGRAM RUNS
+HideErrors();
+

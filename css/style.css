@@ -35,6 +35,12 @@ a {
 .disabled{
     color:grey;
 }
+.error{
+    color:firebrick;
+}
+label[for="color"]{
+    margin-top:20px;
+}
 
 /* ================================= 
   Form Element Styles
