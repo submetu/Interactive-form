@@ -1,3 +1,4 @@
+//VARIABLES AND SETUP
 var checkedAll=false;
 var checkedFram=false;
 var checkedExp=false;
@@ -6,7 +7,6 @@ var checkedNode=false;
 var checkedBuilTools=false;
 var checkedNpm=false;
 var Total=0;
-
 var activityData1=[];
 var activityData2=[];
 var activityData3=[];
@@ -14,7 +14,6 @@ var activityData4=[];
 var activityData5=[];
 var activityData6=[];
 var activityData7=[];
-
 var activityString1=$('.activities label').eq(0).text();
 var activityString2=$('.activities label').eq(1).text();
 var activityString3=$('.activities label').eq(2).text();
@@ -22,15 +21,19 @@ var activityString4=$('.activities label').eq(3).text();
 var activityString5=$('.activities label').eq(4).text();
 var activityString6=$('.activities label').eq(5).text();
 var activityString7=$('.activities label').eq(6).text();
-
 var toBeDisabled=[]; //array that holds the checkboxes that need to be disabled
+//DECLARINg THE TotalPara AS A JQUERY OBJECT AND APPENDING IT TO THE PAGE 
+var $TotalPara=$('<p>$0</p>');
+$('fieldset.activities').append($TotalPara);
 
+
+//FUNCTIONS
 //extracts activity data and returns it in the form of an array
 function getActivityData(datestring){
     if (datestring.indexOf(',') > -1){ //if there is a comma in the datestring then proceed
         var time = datestring.split(',')[0];
         var dayTemporary=time.split(' — ')[1];
-        var sp = time.match(/\d+/g)
+        var sp = time.match(/\d+/g);
         var day=dayTemporary.split(' ')[0];
         var firstTime=parseInt(sp[0]);
         var secondTime=parseInt(sp[1]);

@@ -28,9 +28,7 @@ var $creditCardError=$('<h3 class="error">Please enter a valid credit card numbe
 var $cvvError=$('<h3 class="error">Please enter a valid CVV number!</h3>');
 var $zipError=$('<h3 class="error">Please enter a valid ZIP number!</h3>');
 
-//DECLARINg THE TotalPara AS A JQUERY OBJECT AND APPENDING IT TO THE PAGE 
-var $TotalPara=$('<p>$0</p>');
-$('fieldset.activities').append($TotalPara);
+
 
 
 
