@@ -25,11 +25,12 @@ var toBeDisabled=[]; //array that holds the checkboxes that need to be disabled
 //DECLARINg THE TotalPara AS A JQUERY OBJECT AND APPENDING IT TO THE PAGE 
 var $TotalPara=$('<p>$0</p>');
 $('fieldset.activities').append($TotalPara);
-
+var price=[];//the array in which the price of every activity will be stored
 
 //FUNCTIONS
 //extracts activity data and returns it in the form of an array
 function getActivityData(datestring){
+    price.push(datestring.split('$')[1]); //extract the price of activity from the array and push it into the price array
     if (datestring.indexOf(',') > -1){ //if there is a comma in the datestring then proceed
         var time = datestring.split(',')[0];
         var dayTemporary=time.split(' — ')[1];
@@ -47,7 +48,9 @@ function getActivityData(datestring){
         activityData.push(day,firstTime,secondTime);
         return activityData;
     }
+    
 }
+
 
 //Fills activityData array with the extracted activity data
 function fillerFunc(ref,toBeFilledarray,fillerArray){
@@ -66,7 +69,6 @@ fillerFunc(4,activityData4,getActivityData(activityString4));
 fillerFunc(5,activityData5,getActivityData(activityString5));
 fillerFunc(6,activityData6,getActivityData(activityString6));
 fillerFunc(7,activityData7,getActivityData(activityString7));
-
 
 //function that checks other activities that clash with the passed 'data' array activity
 function onClickChecker(data){
@@ -123,7 +125,7 @@ $('.activities input[name="all"]').on("change",function(){ //if there is a chang
                 }
             }
             toBeDisabled=[];
-            Total+=200;//increment the total price by 200
+            Total+=parseInt(price[0]);//increment the total price by 200
             $TotalPara.text("$"+Total);//Update the Total Price
             checkedAll=true;//set this boolean to true
     } 
@@ -136,7 +138,7 @@ $('.activities input[name="all"]').on("change",function(){ //if there is a chang
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=200; //decrement by 200
+            Total-=parseInt(price[0]); //decrement by 200
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[]; //reset the toBeDisabled array for other checkbox clicks that might happen
@@ -157,7 +159,7 @@ $('.activities input[name="js-frameworks"]').on("change",function(){//if there i
             }
         }
         toBeDisabled=[];
-        Total+=100;//increment by 100
+        Total+=parseInt(price[1]);//increment by 100
         $TotalPara.text("$"+Total);//Update the Total Price
         checkedFram=true;//set this boolean to True
     }
@@ -170,7 +172,7 @@ $('.activities input[name="js-frameworks"]').on("change",function(){//if there i
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=100;//decrement by 100
+            Total-=parseInt(price[1]);//decrement by 100
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[];
@@ -191,7 +193,7 @@ $('.activities input[name="js-libs"]').on("change",function(){
             }
         }
         toBeDisabled=[];
-        Total+=100;
+        Total+=parseInt(price[2]);
         $TotalPara.text("$"+Total);//Update the Total Price
         checkedLib=true;
     }
@@ -204,7 +206,7 @@ $('.activities input[name="js-libs"]').on("change",function(){
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=100;
+            Total-=parseInt(price[2]);
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[];
@@ -223,7 +225,7 @@ $('.activities input[name="express"]').on("change",function(){
             }
         }
         toBeDisabled=[];
-        Total+=100;
+        Total+=parseInt(price[3]);
         $TotalPara.text("$"+Total);//Update the Total Price
         checkedExp=true;
     } 
@@ -236,7 +238,7 @@ $('.activities input[name="express"]').on("change",function(){
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=100;
+            Total-=parseInt(price[3]);
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[];
@@ -255,7 +257,7 @@ $('.activities input[name="node"]').on("change",function(){
             }
         }
         toBeDisabled=[];
-        Total+=100;
+        Total+=parseInt(price[4]);
         $TotalPara.text("$"+Total);//Update the Total Price
         checkedNode=true;
     } 
@@ -268,7 +270,7 @@ $('.activities input[name="node"]').on("change",function(){
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=100;
+            Total-=parseInt(price[4]);
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[];
@@ -288,7 +290,7 @@ $('.activities input[name="build-tools"]').on("change",function(){
                 }
             }
             toBeDisabled=[];
-            Total+=100;
+            Total+=parseInt(price[5]);
             $TotalPara.text("$"+Total);//Update the Total Price
             checkedBuilTools=true;
     }
@@ -301,7 +303,7 @@ $('.activities input[name="build-tools"]').on("change",function(){
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=100;
+            Total-=parseInt(price[5]);
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[];
@@ -322,7 +324,7 @@ $('.activities input[name="npm"]').on("change",function(){
             }
         }
         toBeDisabled=[];
-        Total+=100;
+        Total+=parseInt(price[6]);
         $TotalPara.text("$"+Total);//Update the Total Price
         checkedNpm=true;
     }
@@ -335,7 +337,7 @@ $('.activities input[name="npm"]').on("change",function(){
                     $('.activities label').eq(toBeDisabled[i]).removeClass("disabled");//give the parent of input a class of disabled
                 }
             }
-            Total-=100;
+            Total-=parseInt(price[6]);
             $TotalPara.text("$"+Total);//Update the Total Price
         }
         toBeDisabled=[];
