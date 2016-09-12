@@ -42,6 +42,9 @@ label[for="color"]{
     margin-top:20px;
 }
 
+select.bs-select-hidden, select.selectpicker{
+    display:block;!important
+}
 /* ================================= 
   Form Element Styles
 ==================================== */
